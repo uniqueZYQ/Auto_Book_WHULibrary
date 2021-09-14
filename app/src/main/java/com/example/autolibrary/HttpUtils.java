@@ -43,7 +43,7 @@ public class HttpUtils {
     }
 
     public void getCurrentBook(String cookie,okhttp3.Callback callback){
-        String Url="http://system.lib.whu.edu.cn/libseat-wechat/currentBook";
+        String Url="http://system.lib.whu.edu.cn/libseat-wechat/currentBook?linkSign=currentBook";
 
         OkHttpClient client=new OkHttpClient();
 
@@ -58,6 +58,26 @@ public class HttpUtils {
         OkHttpClient client=new OkHttpClient();
 
         Request request=new Request.Builder().url(Url).header("Cookie", "JSESSIONID="+cookie+";Hm_lvt_c85582349490ddcb3b30224dc1c3b68d="+lvt+";Hm_lpvt_c85582349490ddcb3b30224dc1c3b68d="+lvpt).build();
+
+        client.newCall(request).enqueue(callback);
+    }
+
+    public void StopUse(String BookID,String cookie,okhttp3.Callback callback){
+        String Url="http://system.lib.whu.edu.cn/libseat-wechat/stop?bookId="+BookID;
+
+        OkHttpClient client=new OkHttpClient();
+
+        Request request=new Request.Builder().url(Url).header("Cookie", "JSESSIONID="+cookie+";Hm_lvt_c85582349490ddcb3b30224dc1c3b68d="+lvt+";Hm_lpvt_c85582349490ddcb3b30224dc1c3b68d="+lvpt).build();
+
+        client.newCall(request).enqueue(callback);
+    }
+
+    public void getTomorrowCurrentBook(String cookie,okhttp3.Callback callback) {
+        String Url = "http://system.lib.whu.edu.cn/libseat-wechat/getUserBookHistory";
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder().url(Url).header("Cookie", "JSESSIONID=" + cookie + ";Hm_lvt_c85582349490ddcb3b30224dc1c3b68d=" + lvt + ";Hm_lpvt_c85582349490ddcb3b30224dc1c3b68d=" + lvpt).build();
 
         client.newCall(request).enqueue(callback);
     }

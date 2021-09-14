@@ -1,5 +1,6 @@
 package com.example.autolibrary;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
@@ -26,7 +27,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity{
     private String t_id="",t_pw="",t_seat="",t_seat_origin="",t_start="",t_end="",t_date="",cookie="",BookID="";
-    private int room=0,start=0,end=0,hasPreference=0,init=0,date=0;
+    private int room=0,start=0,end=0,hasPreference=0,init=0,date=0,login_time=0;
     private ActivityMainBinding binding;
     private HttpUtils httpUtils=new HttpUtils();
 
@@ -104,7 +105,6 @@ public class MainActivity extends AppCompatActivity{
 
     private void initClick(){
         binding.buttonDoItNow.setOnClickListener(v->{
-            AboutTime aboutTime=new AboutTime();
             Seat2ID seat2ID=new Seat2ID();
             t_id=binding.editId.getText().toString();
             t_pw=binding.editPw.getText().toString();
@@ -115,121 +115,7 @@ public class MainActivity extends AppCompatActivity{
             else {
                 t_seat = seat2ID.getSeatID(room, Integer.decode(binding.editSeat.getText().toString()));
                 if ((!t_id.equals("")) && (!t_pw.equals("")) && (!t_start.equals("")) && (!t_end.equals("")) && (!t_seat.equals("")) && (room != 0)&&(date!=0)) {
-                    httpUtils.sendLoginRequest(t_id, t_pw, new okhttp3.Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            e.printStackTrace();
-                            Looper.prepare();
-                            Toast.makeText(MainActivity.this, "系统错误:step 1 work failed", Toast.LENGTH_SHORT).show();
-                            Looper.loop();
-                        }
-
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            String result = response.body().string();
-                            try {
-                                JSONObject jsonObject = new JSONObject(result);
-                                if (jsonObject.getBoolean("status") == true) {
-                                    cookie = response.headers().get("Set-Cookie").substring(11, 43);
-                                    if(date==1)
-                                        t_date=aboutTime.getToday();
-                                    else
-                                        t_date=aboutTime.getTomorrow();
-                                    httpUtils.saveSeats(t_seat, t_date, t_start, t_end, cookie, new okhttp3.Callback() {
-                                        @Override
-                                        public void onFailure(Call call, IOException e) {
-                                            e.printStackTrace();
-                                            Looper.prepare();
-                                            Toast.makeText(MainActivity.this, "step 2 work failed", Toast.LENGTH_SHORT).show();
-                                            Looper.loop();
-                                        }
-
-                                        @Override
-                                        public void onResponse(Call call, Response response) throws IOException {
-                                            String result = response.body().string().replace("\\\"", "\"").substring(1);
-                                            try {
-                                                JSONObject jsonObject1 = new JSONObject(result);
-                                                if (jsonObject1.getString("status").equals("success")) {
-                                                    JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("data"));
-                                                    Looper.prepare();
-                                                    Toast.makeText(MainActivity.this, "预约成功," + jsonObject2.getString("location") + " " + jsonObject2.getString("onDate") + jsonObject2.getString("begin") + "~" + jsonObject2.getString("end"), Toast.LENGTH_LONG).show();
-                                                    httpUtils.getCurrentBook(cookie, new okhttp3.Callback() {
-                                                        @Override
-                                                        public void onFailure(Call call, IOException e) {
-                                                            e.printStackTrace();
-                                                            Looper.prepare();
-                                                            Toast.makeText(MainActivity.this, "系统错误:step 3 work failed", Toast.LENGTH_SHORT).show();
-                                                            Looper.loop();
-                                                        }
-
-                                                        @Override
-                                                        public void onResponse(Call call, Response response) throws IOException {
-                                                            String result = response.body().string();
-                                                            if (result.indexOf("\"actualBegin\"") != -1) {
-                                                                String currentBook = result.substring(result.indexOf("\"id\":"), result.indexOf("<input id =\"user\""));
-                                                                BookID = currentBook.substring(5, 13);
-                                                                String date = currentBook.substring(currentBook.indexOf("\"onDate\":\"") + 10, currentBook.indexOf("\",\"seatId\":"));
-                                                                String location = currentBook.substring(currentBook.indexOf("\"location\":\"") + 12, currentBook.indexOf("\",\"begin\""));
-                                                                String start_time = currentBook.substring(currentBook.indexOf("\"begin\":\"") + 9, currentBook.indexOf("\",\"end\""));
-                                                                String end_time = currentBook.substring(currentBook.indexOf("\"end\":") + 7, currentBook.indexOf("\",\"actualBegin\""));
-                                                                LoadCurrentBook(location, date, start_time, end_time);
-                                                            } else {
-                                                                LoadCurrentBook("", "", "", "");
-                                                            }
-                                                        }
-                                                    });
-                                                    Looper.loop();
-                                                } else {
-                                                    Looper.prepare();
-                                                    Toast.makeText(MainActivity.this, jsonObject1.getString("message") + "!", Toast.LENGTH_SHORT).show();
-                                                    httpUtils.getCurrentBook(cookie, new okhttp3.Callback() {
-                                                        @Override
-                                                        public void onFailure(Call call, IOException e) {
-                                                            e.printStackTrace();
-                                                            Looper.prepare();
-                                                            Toast.makeText(MainActivity.this, "系统错误:step 3 work failed", Toast.LENGTH_SHORT).show();
-                                                            Looper.loop();
-                                                        }
-
-                                                        @Override
-                                                        public void onResponse(Call call, Response response) throws IOException {
-                                                            String result = response.body().string();
-                                                            if (result.indexOf("actualBegin") != -1) {
-                                                                String currentBook = result.substring(result.indexOf("\"id\":"), result.indexOf("<input id =\"user\""));
-                                                                BookID = currentBook.substring(5, 13);
-                                                                String date = currentBook.substring(currentBook.indexOf("\"onDate\":\"") + 10, currentBook.indexOf("\",\"seatId\":"));
-                                                                String location = currentBook.substring(currentBook.indexOf("\"location\":\"") + 12, currentBook.indexOf("\",\"begin\""));
-                                                                String start_time = currentBook.substring(currentBook.indexOf("\"begin\":\"") + 9, currentBook.indexOf("\",\"end\""));
-                                                                String end_time = currentBook.substring(currentBook.indexOf("\"end\":") + 7, currentBook.indexOf("\",\"actualBegin\""));
-                                                                LoadCurrentBook(location, date, start_time, end_time);
-                                                            } else {
-                                                                LoadCurrentBook("", "", "", "");
-                                                            }
-                                                        }
-                                                    });
-                                                    Looper.loop();
-                                                }
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                                Looper.prepare();
-                                                Toast.makeText(MainActivity.this, "系统错误:step 2 json parse failed", Toast.LENGTH_SHORT).show();
-                                                Looper.loop();
-                                            }
-                                        }
-                                    });
-                                } else {
-                                    Looper.prepare();
-                                    Toast.makeText(MainActivity.this, jsonObject.getString("content"), Toast.LENGTH_SHORT).show();
-                                    Looper.loop();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Looper.prepare();
-                                Toast.makeText(MainActivity.this, "系统错误:step 1 json parse failed", Toast.LENGTH_SHORT).show();
-                                Looper.loop();
-                            }
-                        }
-                    });
+                    BookNow();
                 } else
                     Toast.makeText(MainActivity.this, "请完善信息!", Toast.LENGTH_SHORT).show();
             }
@@ -244,91 +130,15 @@ public class MainActivity extends AppCompatActivity{
                 Toast.makeText(MainActivity.this, "请先查询预约情况,再释放座位", Toast.LENGTH_SHORT).show();
             }
             else{
-                httpUtils.CancelBook(BookID,cookie, new okhttp3.Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                        Looper.prepare();
-                        Toast.makeText(MainActivity.this, "系统错误:step 4 work failed", Toast.LENGTH_SHORT).show();
-                        Looper.loop();
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        String result = response.body().string().replace("\\\"","\"").substring(1);
-                        try {
-                            JSONObject jsonObject1=new JSONObject(result);
-                            if (jsonObject1.getString("status").equals("success")) {
-                                JSONObject jsonObject2=new JSONObject(jsonObject1.getString("data"));
-                                Looper.prepare();
-                                Toast.makeText(MainActivity.this, "释放成功!", Toast.LENGTH_LONG).show();
-                                httpUtils.getCurrentBook(cookie, new okhttp3.Callback() {
-                                    @Override
-                                    public void onFailure(Call call, IOException e) {
-                                        e.printStackTrace();
-                                        Looper.prepare();
-                                        Toast.makeText(MainActivity.this, "系统错误:step 3 work failed", Toast.LENGTH_SHORT).show();
-                                        Looper.loop();
-                                    }
-
-                                    @Override
-                                    public void onResponse(Call call, Response response) throws IOException {
-                                        String result=response.body().string();
-                                        if(result.indexOf("\"actualBegin\"")!=-1) {
-                                            String currentBook = result.substring(result.indexOf("\"id\":"), result.indexOf("<input id =\"user\""));
-                                            BookID = currentBook.substring(5, 13);
-                                            String date = currentBook.substring(currentBook.indexOf("\"onDate\":\"") + 10, currentBook.indexOf("\",\"seatId\":"));
-                                            String location = currentBook.substring(currentBook.indexOf("\"location\":\"") + 12, currentBook.indexOf("\",\"begin\""));
-                                            String start_time = currentBook.substring(currentBook.indexOf("\"begin\":\"") + 9, currentBook.indexOf("\",\"end\""));
-                                            String end_time = currentBook.substring(currentBook.indexOf("\"end\":") + 7, currentBook.indexOf("\",\"actualBegin\""));
-                                            LoadCurrentBook(location, date, start_time, end_time);
-                                        }
-                                        else{
-                                            LoadCurrentBook("","","","");
-                                        }
-                                    }
-                                });
-                                Looper.loop();
-                            }
-                            else{
-                                Looper.prepare();
-                                Toast.makeText(MainActivity.this, jsonObject1.getString("message")+"!", Toast.LENGTH_SHORT).show();
-                                httpUtils.getCurrentBook(cookie, new okhttp3.Callback() {
-                                    @Override
-                                    public void onFailure(Call call, IOException e) {
-                                        e.printStackTrace();
-                                        Looper.prepare();
-                                        Toast.makeText(MainActivity.this, "系统错误:step 3 work failed", Toast.LENGTH_SHORT).show();
-                                        Looper.loop();
-                                    }
-
-                                    @Override
-                                    public void onResponse(Call call, Response response) throws IOException {
-                                        String result=response.body().string();
-                                        if(result.indexOf("\"actualBegin\"")!=-1) {
-                                            String currentBook = result.substring(result.indexOf("\"id\":"), result.indexOf("<input id =\"user\""));
-                                            BookID = currentBook.substring(5, 13);
-                                            String date = currentBook.substring(currentBook.indexOf("\"onDate\":\"") + 10, currentBook.indexOf("\",\"seatId\":"));
-                                            String location = currentBook.substring(currentBook.indexOf("\"location\":\"") + 12, currentBook.indexOf("\",\"begin\""));
-                                            String start_time = currentBook.substring(currentBook.indexOf("\"begin\":\"") + 9, currentBook.indexOf("\",\"end\""));
-                                            String end_time = currentBook.substring(currentBook.indexOf("\"end\":") + 7, currentBook.indexOf("\",\"actualBegin\""));
-                                            LoadCurrentBook(location, date, start_time, end_time);
-                                        }
-                                        else{
-                                            LoadCurrentBook("","","","");
-                                        }
-                                    }
-                                });
-                                Looper.loop();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Looper.prepare();
-                            Toast.makeText(MainActivity.this, "系统错误:step 4 json parse failed", Toast.LENGTH_SHORT).show();
-                            Looper.loop();
-                        }
-                    }
+                AlertDialog.Builder dialog=new AlertDialog.Builder(MainActivity.this);
+                dialog.setTitle("释放座位");
+                dialog.setMessage("该操作无法恢复！\n确定释放？");
+                dialog.setCancelable(false);
+                dialog.setPositiveButton("是",(dialog12,which)->{
+                    cancelBook();
                 });
+                dialog.setNegativeButton("不，我再想想",(dialog1, which)->{});
+                dialog.show();
             }
         });
 
@@ -346,17 +156,214 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void LoadCurrentBook(String location,String date,String start,String end){
-        /*runOnUiThread(() ->{
-            if(location.equals(""))
-                binding.textCurrentBook.setText("地点:"+location+"\n日期:"+date+" 开始时间:"+start+" 结束时间:"+end));
-        }*/
-        runOnUiThread(new Runnable() {
+
+        runOnUiThread(() -> {
+            if(!location.equals(""))
+                binding.textCurrentBook.setText("地点:"+location+"\n日期:"+date+" 开始时间:"+start+" 结束时间:"+end);
+            else{
+                binding.textCurrentBook.setText("暂无成功的预约,请点击[现在抢]进行预约");
+            }
+        });
+    }
+
+    private void getCurrentBook(){
+        httpUtils.getCurrentBook(cookie, new okhttp3.Callback() {
             @Override
-            public void run() {
-                if(!location.equals(""))
-                    binding.textCurrentBook.setText("地点:"+location+"\n日期:"+date+" 开始时间:"+start+" 结束时间:"+end);
-                else{
-                    binding.textCurrentBook.setText("暂无成功的预约,请点击[现在抢]进行预约");
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                Looper.prepare();
+                Toast.makeText(MainActivity.this, "系统错误:step 3 work failed", Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result=response.body().string();
+                if(result.indexOf("\"actualBegin\"")!=-1) {
+                    String currentBook = result.substring(result.indexOf("\"id\":"), result.indexOf("<input id =\"user\""));
+                    BookID = currentBook.substring(5, 13);
+                    String date = currentBook.substring(currentBook.indexOf("\"onDate\":\"") + 10, currentBook.indexOf("\",\"seatId\":"));
+                    String location = currentBook.substring(currentBook.indexOf("\"location\":\"") + 12, currentBook.indexOf("\",\"begin\""));
+                    String start_time = currentBook.substring(currentBook.indexOf("\"begin\":\"") + 9, currentBook.indexOf("\",\"end\""));
+                    String end_time = currentBook.substring(currentBook.indexOf("\"end\":") + 7, currentBook.indexOf("\",\"actualBegin\""));
+                    LoadCurrentBook(location, date, start_time, end_time);
+                }
+                else {
+                    httpUtils.getTomorrowCurrentBook(cookie, new okhttp3.Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            e.printStackTrace();
+                            Looper.prepare();
+                            Toast.makeText(MainActivity.this, "系统错误:step 3 work failed", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            String result = response.body().string();
+                            String currentBook = result.substring(result.indexOf("\"id\":"), result.indexOf("}"));
+                            BookID = currentBook.substring(5, 13);
+                            String date = currentBook.substring(currentBook.indexOf("\"date\":\"") + 8, currentBook.indexOf("\",\"begin\":"));
+                            String location = currentBook.substring(currentBook.indexOf("\"loc\":\"") + 7, currentBook.indexOf("\",\"stat\""));
+                            String start_time = currentBook.substring(currentBook.indexOf("\"begin\":\"") + 9, currentBook.indexOf("\",\"end\""));
+                            String end_time = currentBook.substring(currentBook.indexOf("\"end\":") + 7, currentBook.indexOf("\",\"awayBegin\""));
+                            String stat = currentBook.substring(currentBook.indexOf("\"stat\":") + 8,currentBook.length()-1);
+                            if (stat.equals("RESERVE"))
+                                LoadCurrentBook(location, date, start_time, end_time);
+                            else
+                                LoadCurrentBook("", "", "", "");
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    private void BookNow(){
+        if(login_time<=2) {
+            httpUtils.sendLoginRequest(t_id, t_pw, new okhttp3.Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                    Looper.prepare();
+                    Toast.makeText(MainActivity.this, "系统错误:step 1 work failed", Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String result = response.body().string();
+                    AboutTime aboutTime = new AboutTime();
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        if (jsonObject.getBoolean("status") == true) {
+                            login_time = 0;
+                            cookie = response.headers().get("Set-Cookie").substring(11, 43);
+                            if (date == 1)
+                                t_date = aboutTime.getToday();
+                            else
+                                t_date = aboutTime.getTomorrow();
+                            httpUtils.saveSeats(t_seat, t_date, t_start, t_end, cookie, new okhttp3.Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                    e.printStackTrace();
+                                    Looper.prepare();
+                                    Toast.makeText(MainActivity.this, "step 2 work failed", Toast.LENGTH_SHORT).show();
+                                    Looper.loop();
+                                }
+
+                                @Override
+                                public void onResponse(Call call, Response response) throws IOException {
+                                    String result = response.body().string().replace("\\\"", "\"").substring(1);
+                                    try {
+                                        JSONObject jsonObject1 = new JSONObject(result);
+                                        if (jsonObject1.getString("status").equals("success")) {
+                                            JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("data"));
+                                            Looper.prepare();
+                                            Toast.makeText(MainActivity.this, "预约成功," + jsonObject2.getString("location") + " " + jsonObject2.getString("onDate") + jsonObject2.getString("begin") + "~" + jsonObject2.getString("end"), Toast.LENGTH_LONG).show();
+                                            getCurrentBook();
+                                            Looper.loop();
+                                        } else {
+                                            Looper.prepare();
+                                            Toast.makeText(MainActivity.this, jsonObject1.getString("message") + "!", Toast.LENGTH_SHORT).show();
+                                            getCurrentBook();
+                                            Looper.loop();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        Looper.prepare();
+                                        Toast.makeText(MainActivity.this, "系统错误:step 2 json parse failed", Toast.LENGTH_SHORT).show();
+                                        Looper.loop();
+                                    }
+                                }
+                            });
+                        } else if (jsonObject.getString("content").equals("绑定账号失败，请重试")) {
+                            login_time++;
+                            BookNow();
+                        } else {
+                            Looper.prepare();
+                            login_time = 0;
+                            Toast.makeText(MainActivity.this, jsonObject.getString("content"), Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Looper.prepare();
+                        Toast.makeText(MainActivity.this, "系统错误:step 1 json parse failed", Toast.LENGTH_SHORT).show();
+                        Looper.loop();
+                    }
+                }
+            });
+        }
+        else {
+            Toast.makeText(MainActivity.this,"连续模拟登录失败,请稍后再试",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void cancelBook(){
+        httpUtils.CancelBook(BookID,cookie, new okhttp3.Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                Looper.prepare();
+                Toast.makeText(MainActivity.this, "系统错误:step 4 work failed", Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string().replace("\\\"","\"").substring(1);
+                try {
+                    JSONObject jsonObject1=new JSONObject(result);
+                    if (jsonObject1.getString("status").equals("success")) {
+                        JSONObject jsonObject2=new JSONObject(jsonObject1.getString("data"));
+                        Looper.prepare();
+                        Toast.makeText(MainActivity.this, "释放成功!", Toast.LENGTH_LONG).show();
+                        getCurrentBook();
+                        Looper.loop();
+                    }
+                    else{
+                        httpUtils.StopUse(BookID,cookie, new okhttp3.Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                e.printStackTrace();
+                                Looper.prepare();
+                                Toast.makeText(MainActivity.this, "系统错误:step 3 work failed", Toast.LENGTH_SHORT).show();
+                                Looper.loop();
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                String result = response.body().string().replace("\\\"","\"").substring(1);
+                                JSONObject jsonObject1= null;
+                                try {
+                                    jsonObject1 = new JSONObject(result);
+                                    if (jsonObject1.getString("status").equals("success")) {
+                                        Looper.prepare();
+                                        Toast.makeText(MainActivity.this, "释放成功!", Toast.LENGTH_LONG).show();
+                                        getCurrentBook();
+                                        Looper.loop();
+                                    }
+                                    else{
+                                        Looper.prepare();
+                                        Toast.makeText(MainActivity.this, jsonObject1.getString("message")+"!", Toast.LENGTH_SHORT).show();
+
+                                        Looper.loop();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Looper.prepare();
+                                    Toast.makeText(MainActivity.this, "系统错误:step 3 json parse failed", Toast.LENGTH_SHORT).show();
+                                    Looper.loop();
+                                }
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Looper.prepare();
+                    Toast.makeText(MainActivity.this, "系统错误:step 4 json parse failed", Toast.LENGTH_SHORT).show();
+                    Looper.loop();
                 }
             }
         });
