@@ -1,1 +1,13 @@
-# Auto_Book_WHULibrary"# Auto_Book_WHULibrary" 
+武汉大学图书馆自动预约系统 2021-9-13
+
+开发环境：Android Studio
+
+目前支持的操作：
+
+    实时预约
+  
+    释放座位
+  
+目前支持的场馆：
+
+    总馆E3-E6
