@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/lib"
+    android:id="@+id/main_activity_layout">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="70dp"
+        android:text="学号:"
+        android:background="#ffffff"
+        android:textColor="#000000"
+        android:padding="2dp"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="70dp"
+        android:text="密码:"
+        android:background="#ffffff"
+        android:textColor="#000000"
+        android:padding="2dp"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="70dp"
+        android:text="场馆:"
+        android:background="#ffffff"
+        android:textColor="#000000"
+        android:padding="2dp"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:layout_marginTop="250dp"
+        android:layout_marginLeft="70dp"
+        android:text="座位:"
+        android:background="#ffffff"
+        android:textColor="#000000"
+        android:padding="2dp"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:layout_marginTop="300dp"
+        android:layout_marginLeft="70dp"
+        android:text="日期:"
+        android:background="#ffffff"
+        android:textColor="#000000"
+        android:padding="2dp"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:layout_marginTop="350dp"
+        android:layout_marginLeft="70dp"
+        android:text="开始:"
+        android:background="#ffffff"
+        android:textColor="#000000"
+        android:padding="2dp"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginTop="400dp"
+        android:layout_marginLeft="70dp"
+        android:text="结束:"
+        android:background="#ffffff"
+        android:textColor="#000000"
+        android:padding="2dp"
+        android:textSize="25dp"/>
+
+    <EditText
+        android:id="@+id/edit_id"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="130dp"
+        android:background="#ffffff"
+        android:padding="2dp"
+        android:inputType="number"
+        android:hint=" 输入学号"
+        android:textSize="25dp"
+        android:maxLength="13"
+        android:singleLine="true"
+        android:textColor="#000000"/>
+
+    <EditText
+        android:id="@+id/edit_pw"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="130dp"
+        android:background="#ffffff"
+        android:padding="2dp"
+        android:inputType="textPassword"
+        android:hint=" 输入密码"
+        android:textSize="25dp"
+        android:singleLine="true"
+        android:textColor="#000000"/>
+
+    <Spinner
+        android:id="@+id/spin_room"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/room"
+        android:theme="@style/spinner_style"
+        android:background="#ffffff"
+        android:padding="2dp"
+        android:layout_gravity="top"
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="130dp"/>
+
+    <EditText
+        android:id="@+id/edit_seat"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginTop="250dp"
+        android:layout_marginLeft="130dp"
+        android:background="#ffffff"
+        android:padding="2dp"
+        android:inputType="number"
+        android:hint=" 意向座位(1~72)"
+        android:textSize="25dp"
+        android:singleLine="true"
+        android:textColor="#000000"/>
+
+    <Spinner
+        android:id="@+id/spin_date"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/date"
+        android:theme="@style/spinner_style"
+        android:background="#ffffff"
+        android:padding="2dp"
+        android:layout_gravity="top"
+        android:layout_marginTop="300dp"
+        android:layout_marginLeft="130dp"/>
+    <Spinner
+        android:id="@+id/spin_start"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/start_time"
+        android:theme="@style/spinner_style"
+        android:background="#ffffff"
+        android:padding="2dp"
+        android:layout_gravity="top"
+        android:layout_marginTop="350dp"
+        android:layout_marginLeft="130dp"/>
+
+    <Spinner
+        android:id="@+id/spin_end"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/end_time"
+        android:theme="@style/spinner_style"
+        android:background="#ffffff"
+        android:padding="2dp"
+        android:layout_gravity="top"
+        android:layout_marginTop="400dp"
+        android:layout_marginLeft="130dp"/>
+
+    <Button
+        android:id="@+id/button_DoItNow"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:layout_marginTop="450dp"
+        android:layout_marginLeft="50dp"
+        android:text="现在抢"
+        android:background="@color/bright_blue"
+        android:textColor="#ffffff"
+        android:textSize="23dp"/>
+
+    <Button
+        android:id="@+id/button_DoItPlanned"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:layout_marginTop="450dp"
+        android:layout_marginRight="50dp"
+        android:text="定时抢"
+        android:background="@color/bright_blue"
+        android:textColor="#ffffff"
+        android:textSize="23dp"/>
+
+    <Button
+        android:id="@+id/button_CancelBook"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:layout_marginTop="510dp"
+        android:layout_marginLeft="50dp"
+        android:text="释放座位"
+        android:background="@color/bright_red"
+        android:textColor="#ffffff"
+        android:textSize="23dp"/>
+
+    <Button
+        android:id="@+id/button_SaveChoice"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:layout_marginTop="510dp"
+        android:layout_marginRight="50dp"
+        android:text="保存偏好"
+        android:background="@color/bright_red"
+        android:textColor="#ffffff"
+        android:textSize="23dp"/>
+
+    <TextView
+        android:id="@+id/text_currentBook"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_gravity="top|center"
+        android:background="#ffffff"
+        android:layout_marginTop="570dp"
+        android:padding="5dp"
+        android:text="点击[现在抢]查询当前预约"/>
+</FrameLayout>

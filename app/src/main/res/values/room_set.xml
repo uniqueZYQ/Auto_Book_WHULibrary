@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="room">
+        <item>选择场馆</item>
+        <item>总馆-E3</item>
+        <item>总馆-E4</item>
+        <item>总馆-E5</item>
+        <item>总馆-E6</item>
+    </string-array>
+</resources>

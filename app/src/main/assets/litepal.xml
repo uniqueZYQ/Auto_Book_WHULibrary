@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+	<list>
+		<dbname value="UserPreference"></dbname>
+
+		<version value="4"></version>
+
+		<list>
+			<mapping class="com.example.autolibrary.UserPreference"></mapping>
+		</list>
+	</list>
+</litepal>
