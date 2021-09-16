@@ -3,10 +3,11 @@
 	<list>
 		<dbname value="UserPreference"></dbname>
 
-		<version value="4"></version>
+		<version value="5"></version>
 
 		<list>
 			<mapping class="com.example.autolibrary.UserPreference"></mapping>
+			<mapping class="com.example.autolibrary.StartTime"></mapping>
 		</list>
 	</list>
 </litepal>

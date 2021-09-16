@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main_activity_layout">
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="120dp"
+        android:text="定时设置"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:textColor="#000000"
+        android:padding="2dp"
+        android:textSize="25dp"/>
+
+    <Spinner
+        android:id="@+id/spin_hour"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:layout_marginTop="170dp"
+        android:layout_marginLeft="20dp"
+        android:entries="@array/hour"
+        android:theme="@style/spinner_style"
+        android:background="#ffffff"
+        android:padding="2dp"/>
+
+    <TextView
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="170dp"
+        android:text=":"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:textColor="#000000"
+        android:padding="2dp"
+        android:textSize="25dp"/>
+
+    <Spinner
+        android:id="@+id/spin_minute"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:layout_marginTop="170dp"
+        android:layout_marginRight="20dp"
+        android:entries="@array/minute"
+        android:theme="@style/spinner_style"
+        android:background="#ffffff"
+        android:padding="2dp"/>
+
+
+    <Button
+        android:id="@+id/button_SaveTiming"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="220dp"
+        android:text="保存定时"
+        android:background="@drawable/red_button_selector"
+        android:textColor="#ffffff"
+        android:textSize="23dp"/>
+
+    <Button
+        android:id="@+id/button_DeleteTiming"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="280dp"
+        android:text="删除定时"
+        android:background="@drawable/red_button_selector"
+        android:textColor="#ffffff"
+        android:textSize="23dp"/>
+
+    <Button
+        android:id="@+id/button_LoopTiming"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="340dp"
+        android:text="开启循环抢"
+        android:background="@drawable/red_button_selector"
+        android:textColor="#ffffff"
+        android:textSize="23dp"/>
+
+</FrameLayout>

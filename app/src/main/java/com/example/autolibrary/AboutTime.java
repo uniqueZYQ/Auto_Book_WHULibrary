@@ -19,4 +19,18 @@ public class AboutTime {
         String time=sdfTwo.format(timecurrentTimeMillis);
         return time;
     }
+
+    public int getHour(){
+        long timecurrentTimeMillis=System.currentTimeMillis();
+        SimpleDateFormat sdfTwo=new SimpleDateFormat("HH", Locale.getDefault());
+        String time=sdfTwo.format(timecurrentTimeMillis);
+        return Integer.valueOf(time).intValue();
+    }
+
+    public int getMinute(){
+        long timecurrentTimeMillis=System.currentTimeMillis();
+        SimpleDateFormat sdfTwo=new SimpleDateFormat("mm", Locale.getDefault());
+        String time=sdfTwo.format(timecurrentTimeMillis);
+        return Integer.valueOf(time).intValue();
+    }
 }

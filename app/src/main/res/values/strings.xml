@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">AutoLibrary</string>
+    <string name="app_name">制霸图书馆</string>
+    <string name="instruction">
+        免责声明:\n
+          本软件服务于真正热爱学习的同学,致力于保障他们的学习空间。禁用本产品作任何背离此初衷之用。\n\n
+        使用规则:"\n"
+          1.为保证功能完整性,建议开启开机自启动、通知权限。否则可能会影响某些功能的使用。\n
+          2.首次使用请将信息填写完整后点击"保存偏好",下一次应用启动将默认为您加载当前保存的信息。\n
+          3.释放座位操作需要先点击"现在抢"以登录账号及查询预约。\n
+          4.定时抢操作将使用您保存的偏好信息进行模拟预约,请在定时时刻前保存您的信息。\n
+          5.当您需要使用定时抢服务时,请确认通知栏中有本应用的通知。否则定时抢极有可能失效。\n\n
+        项目源码地址:\n
+          https://github.com/uniqueZYQ/Auto_Book_WHULibrary.git
+    </string>
 </resources>

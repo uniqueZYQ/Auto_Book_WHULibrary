@@ -1,8 +1,10 @@
 package com.example.autolibrary;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -103,7 +105,10 @@ public class MainActivity extends AppCompatActivity{
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void initClick(){
+        binding.buttonInstruction.setOnClickListener(v-> new Instruction().initInstruction(MainActivity.this));
+
         binding.buttonDoItNow.setOnClickListener(v->{
             Seat2ID seat2ID=new Seat2ID();
             t_id=binding.editId.getText().toString();
@@ -122,7 +127,8 @@ public class MainActivity extends AppCompatActivity{
         });
 
         binding.buttonDoItPlanned.setOnClickListener(v->{
-
+            TimingStart timingStart=new TimingStart();
+            timingStart.startTiming(MainActivity.this);
         });
 
         binding.buttonCancelBook.setOnClickListener(v->{
@@ -158,10 +164,13 @@ public class MainActivity extends AppCompatActivity{
     private void LoadCurrentBook(String location,String date,String start,String end){
 
         runOnUiThread(() -> {
-            if(!location.equals(""))
-                binding.textCurrentBook.setText("地点:"+location+"\n日期:"+date+" 开始时间:"+start+" 结束时间:"+end);
+            if(!location.equals("")) {
+                binding.textCurrentBook.setText("地点:" + location + "\n日期:" + date + " 开始时间:" + start + " 结束时间:" + end);
+                binding.textCurrentBook.setTextColor(getResources().getColor(R.color.bright_green));
+            }
             else{
                 binding.textCurrentBook.setText("暂无成功的预约,请点击[现在抢]进行预约");
+                binding.textCurrentBook.setTextColor(getResources().getColor(R.color.bright_red));
             }
         });
     }
@@ -369,6 +378,12 @@ public class MainActivity extends AppCompatActivity{
         });
     }
 
+    private void initService(){
+        Intent intent=new Intent(this,AutoBookService.class);
+        startService(intent);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -384,6 +399,8 @@ public class MainActivity extends AppCompatActivity{
         }
 
         setContentView(binding.getRoot());
+
+        initService();
 
         initParam();
 

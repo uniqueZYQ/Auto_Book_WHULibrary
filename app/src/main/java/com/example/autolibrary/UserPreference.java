@@ -82,6 +82,7 @@ public class UserPreference extends DataSupport {
 
     public void Save(String sub_id, String pw, int room, int seat, int start, int end, int date,Context context){
         Connector.getDatabase();
+        DataSupport.deleteAll(UserPreference.class);
         UserPreference userPreference=new UserPreference();
         userPreference.setEnd(end);
         userPreference.setPw(pw);

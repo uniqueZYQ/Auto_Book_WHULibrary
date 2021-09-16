@@ -102,6 +102,7 @@
         android:padding="2dp"
         android:inputType="number"
         android:hint=" 输入学号"
+        android:gravity="center"
         android:textSize="25dp"
         android:maxLength="13"
         android:singleLine="true"
@@ -118,6 +119,7 @@
         android:padding="2dp"
         android:inputType="textPassword"
         android:hint=" 输入密码"
+        android:gravity="center"
         android:textSize="25dp"
         android:singleLine="true"
         android:textColor="#000000"/>
@@ -145,6 +147,7 @@
         android:padding="2dp"
         android:inputType="number"
         android:hint=" 意向座位(1~72)"
+        android:gravity="center"
         android:textSize="25dp"
         android:singleLine="true"
         android:textColor="#000000"/>
@@ -192,7 +195,7 @@
         android:layout_marginTop="450dp"
         android:layout_marginLeft="50dp"
         android:text="现在抢"
-        android:background="@color/bright_blue"
+        android:background="@drawable/blue_button_selector"
         android:textColor="#ffffff"
         android:textSize="23dp"/>
 
@@ -203,8 +206,8 @@
         android:layout_gravity="top|right"
         android:layout_marginTop="450dp"
         android:layout_marginRight="50dp"
-        android:text="定时抢"
-        android:background="@color/bright_blue"
+        android:text="定时抢设置"
+        android:background="@drawable/blue_button_selector"
         android:textColor="#ffffff"
         android:textSize="23dp"/>
 
@@ -216,7 +219,7 @@
         android:layout_marginTop="510dp"
         android:layout_marginLeft="50dp"
         android:text="释放座位"
-        android:background="@color/bright_red"
+        android:background="@drawable/red_button_selector"
         android:textColor="#ffffff"
         android:textSize="23dp"/>
 
@@ -228,7 +231,7 @@
         android:layout_marginTop="510dp"
         android:layout_marginRight="50dp"
         android:text="保存偏好"
-        android:background="@color/bright_red"
+        android:background="@drawable/red_button_selector"
         android:textColor="#ffffff"
         android:textSize="23dp"/>
 
@@ -241,4 +244,27 @@
         android:layout_marginTop="570dp"
         android:padding="5dp"
         android:text="点击[现在抢]查询当前预约"/>
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:background="#ffffff"
+        android:layout_marginTop="680dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@color/black"
+        android:text="01:00~22:00可预约当日座位\n22:45~23:50可预约次日座位"/>
+
+    <Button
+        android:id="@+id/button_Instruction"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="730dp"
+        android:text="--使用说明--"
+        android:background="#00FFFFFF"
+        android:textColor="#ffffff"
+        android:textSize="20dp"/>
+
 </FrameLayout>
