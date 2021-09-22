@@ -261,7 +261,7 @@
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center"
-        android:layout_marginTop="730dp"
+        android:layout_marginTop="740dp"
         android:text="--使用说明--"
         android:background="#00FFFFFF"
         android:textColor="#ffffff"

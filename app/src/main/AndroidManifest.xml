@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.autolibrary">
+    package="com.example.autolibrary"
+    android:versionCode="2"
+    android:versionName="2.1.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BATTERY_STATS" tools:ignore="ProtectedPermissions" />
 
     <application
         android:name="org.litepal.LitePalApplication"
@@ -18,6 +21,7 @@
         android:theme="@style/Theme.AutoLibrary"
         android:usesCleartextTraffic="true"
         tools:ignore="MissingClass">
+
         <receiver
             android:name=".PowerOnReceiver"
             android:enabled="true"
@@ -34,8 +38,9 @@
 
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"
-                    android:launchMode="singleTask"/>
+                <action
+                    android:name="android.intent.action.MAIN"
+                    android:launchMode="singleTask" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

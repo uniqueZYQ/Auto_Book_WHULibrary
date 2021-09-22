@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 public class Instruction {
@@ -17,7 +18,8 @@ public class Instruction {
         dialog.setContentView(root);
         Window dialogWindow=dialog.getWindow();
         dialogWindow.setGravity(Gravity.CENTER);
-
+        Button close=root.findViewById(R.id.button_close);
+        close.setOnClickListener(v-> dialog.cancel());
         dialog.show();
     }
 }

@@ -405,5 +405,7 @@ public class MainActivity extends AppCompatActivity{
         initParam();
 
         initClick();
+
+        new Instruction().initInstruction(MainActivity.this);
     }
 }
