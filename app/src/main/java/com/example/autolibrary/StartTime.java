@@ -1,7 +1,5 @@
 package com.example.autolibrary;
 
-import android.graphics.ColorSpace;
-
 import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
 

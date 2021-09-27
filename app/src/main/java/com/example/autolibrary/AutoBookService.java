@@ -50,9 +50,7 @@ public class AutoBookService extends Service {
         }
     };
 
-    public AutoBookService() {
-
-    }
+    public AutoBookService() {}
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -187,10 +185,8 @@ public class AutoBookService extends Service {
                                         JSONObject jsonObject1 = new JSONObject(result);
                                         if (jsonObject1.getString("status").equals("success")) {
                                             JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("data"));
-                                            //Toast.makeText(context, "预约成功," + jsonObject2.getString("location") + " " + jsonObject2.getString("onDate") + jsonObject2.getString("begin") + "~" + jsonObject2.getString("end"), Toast.LENGTH_LONG).show();
                                             sendNotification("预约成功," + jsonObject2.getString("location") + " " + jsonObject2.getString("onDate") + jsonObject2.getString("begin") + "~" + jsonObject2.getString("end"));
                                         } else {
-                                            //Toast.makeText(context, jsonObject1.getString("message") + "!", Toast.LENGTH_SHORT).show();
                                             sendNotification(jsonObject1.getString("message") + "!");
                                         }
                                     } catch (JSONException e) {
@@ -206,7 +202,6 @@ public class AutoBookService extends Service {
                             BookNow(context,t_id,t_pw,date,t_seat,t_start,t_end);
                         } else {
                             login_time = 0;
-                            //Toast.makeText(context, jsonObject.getString("content"), Toast.LENGTH_SHORT).show();
                             sendNotification(jsonObject.getString("content"));
                         }
                     } catch (JSONException e) {
@@ -220,7 +215,6 @@ public class AutoBookService extends Service {
         }
         else {
             sendNotification("连续模拟登录失败,请稍后再试");
-            //Toast.makeText(context,"连续模拟登录失败,请稍后再试",Toast.LENGTH_SHORT).show();
         }
     }
 
